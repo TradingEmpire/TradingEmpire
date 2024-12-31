@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Empire</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: linear-gradient(to bottom, #1e1e1e, #121212);
+        background-image: url('your-background-image.jpg'); /* Replace with your image URL */
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: #fff;
+    }
+
+    header {
+        background-color: #333;
+        padding: 10px;
+        text-align: center;
+    }
+
+    header h1 {
+        margin: 0;
+    }
+
+    nav a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+
+    main {
+        padding: 20px;
+        flex: 1;
+    }
+
+    #news {
+        margin-top: 20px;
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        max-width: 400px;
+        position: relative;
+    }
+
+    #search-bar {
+        width: 100%;
+        padding: 10px 40px 10px 15px;
+        font-size: 16px;
+        border: 1px solid #4CAF50;
+        border-radius: 5px;
+        background-color: #2c2c2c;
+        color: #fff;
+    }
+
+    .search-icon {
+        position: absolute;
+        right: 15px;
+        font-size: 20px;
+        color: #4CAF50;
+        pointer-events: none;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    .news-box {
+        display: flex;
+        align-items: center;
+        border: 2px solid #4CAF50;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 15px;
+        background-color: #2c2c2c;
+    }
+
+    .news-box img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        margin-right: 15px;
+        border-radius: 5px;
+    }
+
+    .news-box h3 {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+    }
+
+    .news-box p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.4;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        /* Show only 3 lines */
+        -webkit-box-orient: vertical;
+    }
+
+    footer {
+        text-align: center;
+        padding: 10px 0;
+        background-color: #333;
+    }
+
+    .no-results {
+        font-size: 18px;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Trading Empire</h1>
+        <nav>
+            <a href="index.html">News</a>
+            <a href="research.html">Coin Research</a>
+            <a href="#Market Update">Market Update</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="news">
+            <h2>Updated News</h2>
+            <div class="search-container">
+                <input type="text" id="search-bar" placeholder="Search news...">
+                <span class="search-icon">&#128269;</span> <!-- Unicode for magnifying glass -->
+            </div>
+            <div id="news-container"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            © 2024 Crypto News & Research. All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        const apiKey = 'YOUR_API_KEY'; // Replace this with a secure server implementation
+        const newsContainer = document.getElementById('news-container');
+        const searchBar = document.getElementById('search-bar');
+        let allNews = []; // To store fetched news for searching
+        
+        // Fetch news from CryptoCompare API
+        async function fetchCryptoNews() {
+            try {
+                newsContainer.innerHTML = '<p>Loading news...</p>';
+                const response = await fetch(`https://min-api.cryptocompare.com/data/v2/news/?lang=EN&api_key=${apiKey}`);
+                const data = await response.json();
+        
+                // Store the fetched news for searching
+                allNews = data.Data.slice(0, 100); // Limit to 20 articles for performance
+        
+                displayNews(allNews); // Display fetched news initially
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                newsContainer.innerHTML = '<p>Failed to load news. Please try again later.</p>';
+            }
+        }
+        
+        // Function to display news based on search input
+        function displayNews(newsList) {
+            newsContainer.innerHTML = '';
+            if (newsList.length === 0) {
+                newsContainer.innerHTML = '<p class="no-results">No results found. Try searching for a specific cryptocurrency!</p>';
+                return;
+            }
+            newsList.forEach(news => {
+                const newsLink = document.createElement('a');
+                newsLink.href = news.url;
+                newsLink.target = '_blank';
+                newsLink.style.textDecoration = 'none'; // Remove underline for the link
+                newsLink.style.color = 'inherit'; // Inherit text color
+        
+                const newsBox = document.createElement('div');
+                newsBox.classList.add('news-box');
+                newsBox.innerHTML = `
+                    <img src="${news.imageurl || 'default-image.jpg'}" alt="${news.title || 'News Image'}">
+                    <div>
+                        <h3>${news.title}</h3>
+                        <p>${news.body.substring(0, 150)}...</p>
+                    </div>
+                `;
+        
+                newsLink.appendChild(newsBox);
+                newsContainer.appendChild(newsLink);
+            });
+        }
+        
+        // Filter news based on search input (by title)
+        searchBar.addEventListener('input', () => {
+            const query = searchBar.value.toLowerCase();
+            const filteredNews = allNews.filter(news =>
+                news.title.toLowerCase().includes(query) // Match the search query to title only
+            );
+            displayNews(filteredNews);
+        });
+        
+        // Fetch news every 1 minute (for updates)
+        fetchCryptoNews(); // Initial fetch
+        setInterval(fetchCryptoNews, 60000); // Update every 60 seconds
+    </script>
+</body>
+</html>

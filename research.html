@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Empire</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #1e1e1e, #121212);
+    background-image: url('your-background-image.jpg'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #fff;
+}
+
+        header {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        main {
+            padding: 20px;
+            flex: 1;
+        }
+
+        #news {
+            margin-top: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .news-box {
+            display: flex;
+            align-items: center;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: #2c2c2c;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none; /* Removes underline from link */
+            color: inherit; /* Ensures the link uses the parent text color */
+        }
+
+        .news-box:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.4);
+        }
+
+        .news-box img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            margin-right: 15px;
+            border-radius: 5px;
+        }
+
+        .news-box h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+        }
+
+        .news-box p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.4;
+            overflow: hidden; /* Prevents text overflow */
+            text-overflow: ellipsis; /* Adds "..." for overflowing text */
+            display: -webkit-box; /* Makes the element respect the line clamp */
+            -webkit-line-clamp: 3; /* Limits the text to 3 lines */
+            -webkit-box-orient: vertical; /* Specifies vertical orientation for line clamp */
+            white-space: normal; /* Allows text to wrap */
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Trading Empire</h1>
+        <nav>
+            <a href="index.html">News</a>
+            <a href="research.html">Coin Research</a>
+            <a href="#Market Update">Market Update</a>
+        </nav>
+    </header>
+    <main>
+        <section id="Coin Research">
+            <h2>Coin Research</h2>
+
+            <!-- Example Box 1 -->
+            <a href="sui.html" class="news-box">
+                <img src="unnamed.webp">
+                <div>
+                    <h3>Research SUI</h3>
+                    <p>
+                        Sui is a Layer 1 blockchain designed to deliver high performance, efficiency, and a better user experience. It was developed by Mysten Labs, a team of former engineers from Meta (Facebook) who worked on the Diem blockchain project.
+                    </p>
+                </div>
+            </a>
+
+            <!-- Example Box 2 -->
+            <a href="ethereum.html" class="news-box">
+                <img src="images.png">
+                <div>
+                    <h3>Ethereum Upgrade Successful</h3>
+                    <p>
+                        The latest Ethereum upgrade improves scalability and reduces transaction fees. Further updates on its implementation will follow.
+                    </p>
+                </div>
+            </a>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            © 2024 Crypto News & Research. All rights reserved.
+        </p>
+    </footer>
+</body>
+</html>
